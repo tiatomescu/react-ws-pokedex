@@ -3,10 +3,11 @@ import "./App.css";
 import Home from "./home";
 import {viewContext, App} from "./App";
 
+
+
 function Details() {
-  const {
-    currView, setCurrView
-  } = useContext(viewContext);
+  const {currView, setCurrView} = useContext(viewContext);
+
 
   return(
   <>

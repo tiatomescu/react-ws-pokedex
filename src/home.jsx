@@ -6,8 +6,6 @@ import {viewContext, App} from "./App";
 function Home() {
   const {currView, setCurrView} = useContext(viewContext);
   const [pokeList, setPokeList] = useState([]);
-  const [pokeImg, setPokeImg] = useState('');
-  const [pokeName, setPokeName] = useState([]);
   const url = 'https://pokeapi.co/api/v2/pokemon?limit=60&offset=0';
   useEffect(() => {
     fetch(url) //name: balbasaurus, url: ...pokemon/1/
@@ -23,26 +21,39 @@ function Home() {
       Retro PokeDex
     </h1>
     <div className = "image-group">
-      {displayPokeData(pokeList)}
-      {console.log('pokeList: ', pokeList, 'pokeImg: ', pokeImg, 'pokeName: ', pokeName)}
+      {pokeList.map(pokemon => <DisplayPokeData key={pokemon.name} pokeData={pokemon}/>)}
     </div>
-    <button onClick = { () => {setCurrView("details")}}>
+    <button onClick = {() => {setCurrView("details")}}>
       Poke Cards
     </button>
   </>
   )
 };
 
-const displayPokeData = (list) => { //array of 60 objects //{name:..., url:...}
-  list.forEach(
-    fetch(list.url)
+function DisplayPokeData({pokeData}){
+  const [pokeImg, setPokeImg] = useState('');
+  const {currView, setCurrView} = useContext(viewContext);
+
+  useEffect(() => {
+    fetch(pokeData.url)
     .then(res => res.json())
-    .then(data => {return(
-      // <div>
-      //   <h1>list.name</h1>
-      <img src={data.sprites.front_default}/>
-      // <div/>
-    )})
+    .then(data => {
+      setPokeImg(data.sprites.front_default)
+      //capture and send that data
+    })
+  }, [pokeData.url])
+
+  return (
+    <>
+      <div className='poke-card'>
+        <img onClick = {() => {
+          setCurrView("details")
+          //setDetails(details)
+          //function that captures details to send to details page
+        }} src={pokeImg}/>
+        <h3>{pokeData.name}</h3>
+        </div>
+    </>
   )
 }
 

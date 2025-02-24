@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 }
+
+.image-group {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
