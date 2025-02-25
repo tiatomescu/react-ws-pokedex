@@ -1,21 +1,21 @@
 import { createContext, useState } from "react";
 import "./App.css";
-import Home from "./home";
-import Details from "./details";
+import {Home} from "./home";
+import {Details} from "./details";
+import {DetailsContext} from "./detailsContext";
 
 const viewContext = createContext(null);
-const detailsContext = createContext(null);
 
 function App() {
   const [currView, setCurrView] = useState("home");
-  const [pokeDetails, setPokeDetails] = useState({});
+  const [details, setDetails] = useState({});
   let view = currView == "home" ? <Home /> : <Details />;
 
   return(
     <viewContext.Provider value= {{currView, setCurrView}}>
-      <detailsContext.Provider value={{pokeDetails, setPokeDetails}}>
+      <DetailsContext.Provider value={{details, setDetails}}>
         {view}
-      </detailsContext.Provider>
+      </DetailsContext.Provider>
     </viewContext.Provider>
   )
 }
